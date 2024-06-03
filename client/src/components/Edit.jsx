@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
-import "../addemployee/add.css";
 import toast from 'react-hot-toast';
+import "./add.css";
 
 const Edit = () => {
 
@@ -41,7 +41,7 @@ const Edit = () => {
     await axios.put(`http://localhost:8000/api/update/${id}`, employee)
     .then((response)=>{
        toast.success(response.data.msg, {position:"top-right"})
-       navigate("/")
+       navigate("/employee")
     })
     .catch(error => console.log(error))
  }

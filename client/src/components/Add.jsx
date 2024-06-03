@@ -5,24 +5,16 @@ import "./add.css";
 import toast from "react-hot-toast";
 
 const Add = () => {
-  // const users = {
-  //   fname:"",
-  //   lname:"",
-  //   email:"",
-  //   phone:"",
-  //   state:"",
-  //   city:""
-  // }
+  const users = {
+    fname:"",
+    lname:"",
+    email:"",
+    phone:"",
+    state:"",
+    city:""
+  }
 
-  // const [employee, setEmployee] = useState(users);
-  const [employee, setEmployee] = useState({
-    fname: "",
-    lname: "",
-    email: "",
-    phone: "",
-    state: "",
-    city: "",
-  });
+  const [employee, setEmployee] = useState(users);
   const navigate = useNavigate();
 
   const inputHandler = (e) => {
@@ -32,7 +24,11 @@ const Add = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    if (employee.fname !== "" && employee.lname !== "" && employee.email !== "") {
+    if (
+      employee.fname !== "" &&
+      employee.lname !== "" &&
+      employee.email !== ""
+    ) {
       await axios
         .post("http://localhost:8000/emp/create", employee)
         .then((response) => {
@@ -94,9 +90,7 @@ const Add = () => {
         </div>
         <div className="inputGroup">
           <label htmlFor="state">State</label>
-          <select onChange={inputHandler}
-            id="state"
-            name="state">
+          <select onChange={inputHandler} id="state" name="state">
             <option defaultValue={""}>Select State</option>
             <option value={"Uttar Pradesh"}>Uttar Pradesh</option>
             <option value={"Punjab"}>Punjab</option>
@@ -105,9 +99,7 @@ const Add = () => {
         </div>
         <div className="inputGroup">
           <label htmlFor="city">City</label>
-          <select onChange={inputHandler}
-            id="city"
-            name="city">
+          <select onChange={inputHandler} id="city" name="city">
             <option defaultValue={""}>Select City</option>
             <option value={"Delhi"}>Delhi</option>
             <option value={"Gurugram"}>Gurugram</option>

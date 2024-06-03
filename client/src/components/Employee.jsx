@@ -6,6 +6,18 @@ import { Link } from "react-router-dom";
 
 const Employee = () => {
   const [employees, setEmployees] = useState([]);
+  // const [search, setSearch] = useState("");
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const arr = await axios.get("http://localhost:8000/emp/getall");
+  //   };
+  //   const filterData = fetchData.filter((employee) => {
+  //     if (employee.fname.includes(data)) {
+  //       return employee;
+  //     }
+  //   });
+  // }, [search]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +32,9 @@ const Employee = () => {
     await axios
       .delete(`http://localhost:8000/emp/delete/${employeeId}`)
       .then((respones) => {
-        setEmployees((prevEmployee) => prevEmployee.filter((employee) => employee._id !== employeeId));
+        setEmployees((prevEmployee) =>
+          prevEmployee.filter((employee) => employee._id !== employeeId)
+        );
         toast.success(respones.data.msg, { position: "top-right" });
       })
       .catch((error) => {
@@ -33,6 +47,14 @@ const Employee = () => {
       <Link to={"/add"} className="addButton">
         Add Employee
       </Link>
+      {/* <div>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          type="text"
+          placeholder="Search"
+        />
+      </div> */}
       <table border={1} cellPadding={10} cellSpacing={0}>
         <thead>
           <tr>
