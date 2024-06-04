@@ -1,5 +1,5 @@
 import './App.css';
-import Login from './routes/Login';
+import Login from './components/Login';
 import Employee from './components/Employee';
 import Add from './components/Add';
 import Edit from './components/Edit';

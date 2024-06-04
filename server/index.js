@@ -1,13 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
-import bodyParser from "body-parser"
 import dotenv from "dotenv";
 import cors from "cors";
 import empRoute from "./routes/employees.js";
 import userRoute from "./routes/users.js";
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 dotenv.config();
 

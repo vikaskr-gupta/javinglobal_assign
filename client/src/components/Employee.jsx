@@ -1,41 +1,39 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
 import "./employee.css";
 import { Link } from "react-router-dom";
 
 const Employee = () => {
   const [employees, setEmployees] = useState([]);
-  // const [search, setSearch] = useState("");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const arr = await axios.get("http://localhost:8000/emp/getall");
-  //   };
-  //   const filterData = fetchData.filter((employee) => {
-  //     if (employee.fname.includes(data)) {
-  //       return employee;
-  //     }
-  //   });
-  // }, [search]);
+  const [filterData, setFilterData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [refreshPage,setRefreshPage]=useState(false);
 
   useEffect(() => {
+    setRefreshPage(false);
     const fetchData = async () => {
       const response = await axios.get("http://localhost:8000/emp/getall");
       setEmployees(response.data);
     };
-
     fetchData();
-  }, []);
+  }, [refreshPage]);
 
-  const deleteEmployee = async (employeeId) => {
-    await axios
+  useEffect(() => {
+    if (search.length > 0) {
+      let res = employees.filter((item) => item.fname?.includes(search));
+
+      setFilterData(res);
+    } else {
+      setFilterData(employees);
+    }
+  }, [search, employees]);
+
+  const deleteEmployee = (employeeId) => {
+    axios
       .delete(`http://localhost:8000/emp/delete/${employeeId}`)
-      .then((respones) => {
-        setEmployees((prevEmployee) =>
-          prevEmployee.filter((employee) => employee._id !== employeeId)
-        );
-        toast.success(respones.data.msg, { position: "top-right" });
+      .then((response) => {
+        console.log(response.data);
+        setRefreshPage(true);
       })
       .catch((error) => {
         console.log(error);
@@ -47,14 +45,16 @@ const Employee = () => {
       <Link to={"/add"} className="addButton">
         Add Employee
       </Link>
-      {/* <div>
+
+      <div className="search">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search"
         />
-      </div> */}
+      </div>
+
       <table border={1} cellPadding={10} cellSpacing={0}>
         <thead>
           <tr>
@@ -64,10 +64,12 @@ const Employee = () => {
             <th>Phone No.</th>
             <th>State</th>
             <th>City</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee, index) => {
+          {filterData.map((employee, index) => {
             return (
               <tr key={employee._id}>
                 <td>{index + 1}</td>
@@ -78,15 +80,15 @@ const Employee = () => {
                 <td>{employee.phone}</td>
                 <td>{employee.state}</td>
                 <td>{employee.city}</td>
-
+                <td>
+                  <Link to={`/edit/` + employee._id}>
+                    <i className="fa-solid fa-pen-to-square"></i>
+                  </Link>
+                </td>
                 <td className="actionButtons">
                   <button onClick={() => deleteEmployee(employee._id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
-
-                  <Link to={`/edit/` + employee._id}>
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </Link>
                 </td>
               </tr>
             );

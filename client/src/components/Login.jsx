@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
 import "./add.css";
 
 const Login = () => {
@@ -30,7 +29,6 @@ const Login = () => {
       await axios
         .post("http://localhost:8000/user/login", user)
         .then((response) => {
-          toast.success(response.data.msg, { position: "top-right" });
           navigate("/employee");
         })
         .catch((e) => {
