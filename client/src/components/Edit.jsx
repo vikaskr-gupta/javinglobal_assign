@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./add.css";
+import { useSelector } from "react-redux";
 
 const Edit = () => {
-  const employees = {
-    fname: "",
-    lname: "",
-    email: "",
-    phone: "",
-    state: "",
-    city: "",
-  };
-
-  const { id } = useParams();
+  
   const navigate = useNavigate();
-  const [employee, setEmployee] = useState(employees);
+  const empData = useSelector((state) => state.edit.value);
+  const [employee, setEmployee] = useState(empData);
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -23,21 +16,10 @@ const Edit = () => {
     console.log(employee);
   };
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/emp/getone/${id}`)
-      .then((response) => {
-        setEmployee(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id]);
-
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .put(`http://localhost:8000/emp/update/${id}`, employee)
+      .put(`http://localhost:8000/emp/update/${employee._id}`, employee)
       .then((response) => {
         navigate("/employee");
       })

@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./employee.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { editEmp } from "../features/empSlice.js";
 
 const Employee = () => {
   const [employees, setEmployees] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [search, setSearch] = useState("");
-  const [refreshPage,setRefreshPage]=useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setRefreshPage(false);
@@ -21,7 +26,6 @@ const Employee = () => {
   useEffect(() => {
     if (search.length > 0) {
       let res = employees.filter((item) => item.fname?.includes(search));
-
       setFilterData(res);
     } else {
       setFilterData(employees);
@@ -32,12 +36,16 @@ const Employee = () => {
     axios
       .delete(`http://localhost:8000/emp/delete/${employeeId}`)
       .then((response) => {
-        console.log(response.data);
         setRefreshPage(true);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleEdit = (item) => {
+    dispatch(editEmp(item));
+    navigate("/edit");
   };
 
   return (
@@ -81,9 +89,9 @@ const Employee = () => {
                 <td>{employee.state}</td>
                 <td>{employee.city}</td>
                 <td>
-                  <Link to={`/edit/` + employee._id}>
+                  <button onClick={() => handleEdit(employee)}>
                     <i className="fa-solid fa-pen-to-square"></i>
-                  </Link>
+                  </button>
                 </td>
                 <td className="actionButtons">
                   <button onClick={() => deleteEmployee(employee._id)}>
