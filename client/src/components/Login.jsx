@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import "./add.css";
+
+import { login } from "../features/userSlice";
 
 const Login = () => {
   const usersinit = {
@@ -12,6 +14,7 @@ const Login = () => {
   const [user, setUser] = useState(usersinit);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -20,20 +23,14 @@ const Login = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    if (
-      user.email !== "" &&
-      user.password !== "" &&
-      user.email &&
-      user.password
-    ) {
-      await axios
-        .post("http://localhost:8000/user/login", user)
-        .then((response) => {
-          navigate("/employee");
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    if (user.email !== "" && user.password !== "") {
+      try {
+        const response = await axios.post("http://localhost:8000/user/login", user);
+        dispatch(login(response.data));
+        navigate("/employee");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

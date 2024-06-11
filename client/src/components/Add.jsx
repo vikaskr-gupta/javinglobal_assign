@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./add.css";
+import "../App.css";
+import { useDispatch } from "react-redux";
+import { addEmp } from "../features/empSlice";
 
 const Add = () => {
   const users = {
-    fname:"",
-    lname:"",
-    email:"",
-    phone:"",
-    state:"",
-    city:""
-  }
+    fname: "",
+    lname: "",
+    email: "",
+    phone: "",
+    state: "",
+    city: "",
+  };
 
   const [employee, setEmployee] = useState(users);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -23,17 +26,10 @@ const Add = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    if (
-      employee.fname !== "" &&
-      employee.lname !== "" &&
-      employee.email !== ""
-    ) {
-      await axios
-        .post("http://localhost:8000/emp/create", employee)
-        .then((response) => {
-          navigate("/employee");
-        })
-        .catch((error) => console.log(error));
+    if (employee.fname !== "" && employee.lname !== "" && employee.email !== "") {
+      const response = await axios.post("http://localhost:8000/emp/create", employee);
+      dispatch(addEmp(response.data));
+      navigate("/employee");
     }
   };
 

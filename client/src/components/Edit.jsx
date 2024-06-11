@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./add.css";
-import { useSelector } from "react-redux";
+import "../App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEmp } from "../features/empSlice";
 
 const Edit = () => {
   
   const navigate = useNavigate();
-  const empData = useSelector((state) => state.edit.value);
-  const [employee, setEmployee] = useState(empData);
+  const dispatch = useDispatch();
+  const emps = useSelector((state) => state.emp.editEmployee);
+  const [employee, setEmployee] = useState(emps);
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
     setEmployee({ ...employee, [name]: value });
-    console.log(employee);
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await axios
-      .put(`http://localhost:8000/emp/update/${employee._id}`, employee)
-      .then((response) => {
-        navigate("/employee");
-      })
-      .catch((error) => console.log(error));
+    await axios.put(`http://localhost:8000/emp/update/${employee._id}`, employee);
+    dispatch(updateEmp(employee));
+    navigate("/employee");
   };
-
   return (
     <div className="addEmployee">
       <Link to={"/employee"}>Back</Link>

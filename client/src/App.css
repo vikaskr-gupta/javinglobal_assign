@@ -9,3 +9,126 @@
 body{
     background-color: aliceblue;
 }
+
+/* EMPLOYEE CSS */
+.employeeTable{
+    width: 60%;
+    background-color: white;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+    border-radius: 5px;
+    margin: 50px auto;
+    padding: 50px;
+}
+
+.addButton{
+   text-decoration: none;
+   background-color: rgb(104, 89, 219);
+   color: white;
+   font-weight: 500;
+   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+   border-radius: 5px;
+   padding: 10px;
+}
+
+.search{
+    margin: 3px 0;
+    padding: 10px 0;
+}
+
+.search input{
+    /* color: white; */
+    border-radius: 5px;
+    padding: 7px 7px;
+}
+
+.employeeTable table{
+    width: 100%;
+    /* margin-top: 30px; */
+    border-collapse: collapse;
+
+}
+
+.employeeTable table thead th{
+    background-color: rgb(82, 82, 100);
+    color: white;
+    padding: 10px;
+}
+
+.employeeTable table tbody td{
+    padding: 10px;
+    text-align: center;
+}
+
+.actionButtons button{
+    border: 0;
+    outline: none;
+    background: rgb(198, 40, 40);
+    padding: 8px 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.actionButtons a{
+    background: green;
+    padding: 6px 10px;
+    color: white;
+    border-radius: 5px;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+/* ADD CSS */
+
+.addEmployee{
+    width: 25%;
+    background-color: white;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+    border-radius: 5px;
+    margin: 50px auto;
+    padding: 50px;
+}
+
+.addEmployeeForm {
+    margin-top: 20px;
+}
+
+.addEmployeeForm .inputGroup{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.addEmployeeForm .inputGroup label{
+    margin-bottom: 5px;
+}
+
+.addEmployeeForm .inputGroup input{
+    margin-bottom: 10px;
+    padding: 10px;
+    outline: none;
+}
+
+.addEmployeeForm .inputGroup select{
+    margin-bottom: 10px;
+    padding: 10px;
+    outline: none;
+}
+
+.addEmployeeForm .inputGroup button{
+    border: 0;
+    outline: none;
+    background-color: rgb(89, 89, 89);
+    color: white;
+    font-weight: 600;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+    margin-top: 20px;
+}
+
+.addEmployee h3{
+    margin-top: 10px;
+}
