@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setEmployees, editEmp, deleteEmp } from "../features/empSlice.js";
+import { fetchEmployees, deleteEmployeeById, setEditEmployee } from "../features/empSlice";
 
 const Employee = () => {
   const [search, setSearch] = useState("");
@@ -14,16 +13,7 @@ const Employee = () => {
   const employees = useSelector((state) => state.emp.value);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/emp/getall");
-        dispatch(setEmployees(response.data));
-      } catch (error) {
-        console.log("Error fetching employees:", error);
-      }
-    };
-
-    fetchData();
+    dispatch(fetchEmployees());
     setRefreshPage(false);
   }, [refreshPage, dispatch]);
 
@@ -33,16 +23,15 @@ const Employee = () => {
 
   const handleDelete = async (employeeId) => {
     try {
-      await axios.delete(`http://localhost:8000/emp/delete/${employeeId}`);
-      dispatch(deleteEmp(employeeId));
+      dispatch(deleteEmployeeById(employeeId));
       setRefreshPage(true);
     } catch (error) {
       console.log("Error deleting employee:", error);
     }
   };
 
-  const handleEdit = (item) => {
-    dispatch(editEmp(item));
+  const handleEdit = (employee) => {
+    dispatch(setEditEmployee(employee));
     navigate("/edit");
   };
 
@@ -75,7 +64,7 @@ const Employee = () => {
           </tr>
         </thead>
         <tbody>
-          {filterData.map((employee, index) => {
+        {Array.isArray(filterData) && filterData.map((employee, index) => {
             return (
               <tr key={employee._id}>
                 <td>{index + 1}</td>

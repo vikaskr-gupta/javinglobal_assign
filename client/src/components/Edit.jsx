@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateEmp } from "../features/empSlice";
+import { updateEmployee } from "../features/empSlice";
 
 const Edit = () => {
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const emps = useSelector((state) => state.emp.editEmployee);
-  const [employee, setEmployee] = useState(emps);
+  const editEmployee = useSelector((state) => state.emp.editEmployee);
+  const [employee, setEmployee] = useState(editEmployee);
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -19,10 +17,10 @@ const Edit = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8000/emp/update/${employee._id}`, employee);
-    dispatch(updateEmp(employee));
+    dispatch(updateEmployee(employee));
     navigate("/employee");
   };
+
   return (
     <div className="addEmployee">
       <Link to={"/employee"}>Back</Link>
@@ -87,7 +85,7 @@ const Edit = () => {
             placeholder="Select State"
           >
             <option value={"Uttar Pradesh"}>Uttar Pradesh</option>
-            <option value={"Punjab"}>Punjab</option>
+            <option value={"Himachal Pradesh"}>Himachal Pradesh</option>
             <option value={"Maharashtra"}>Maharashtra</option>
           </select>
         </div>
@@ -101,8 +99,9 @@ const Edit = () => {
             autoComplete="off"
             placeholder="Select City"
           >
-            <option value={"Delhi"}>Delhi</option>
-            <option value={"Gurugram"}>Gurugram</option>
+            <option value={"Lucknow"}>Lucknow</option>
+            <option value={"Ghaziabad"}>Ghaziabad</option>
+            <option value={"Varanasi"}>Varanasi</option>
             <option value={"Noida"}>Noida</option>
           </select>
         </div>
